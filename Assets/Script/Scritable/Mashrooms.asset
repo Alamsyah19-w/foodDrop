@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adafa4f35f10544449671c30701b32c2, type: 3}
+  m_Name: Mashrooms
+  m_EditorClassIdentifier: Assembly-CSharp::AlergiFoodScritable
+  prefabs:
+  - {fileID: 415585789801359933, guid: 067f119ba8dc4a143adbfdd991568710, type: 3}
+  - {fileID: 6267793327357154081, guid: af95ee4ccfbfd874487f3f2519f9e9ad, type: 3}
+  - {fileID: 777227596706335877, guid: 5cf3c80b550b62043a45f2870ead2faa, type: 3}
+  category: 0
