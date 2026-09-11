@@ -9,6 +9,7 @@ public class ScoreUI : MonoBehaviour
     private void Update()
     {
         scoreText.text=scoreValue.GetScore().ToString();
+        
     }
 
 }
