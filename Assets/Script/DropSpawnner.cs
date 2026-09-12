@@ -111,9 +111,5 @@ public class DropSpawnner : MonoBehaviour
         positionX.x=Random.Range(-4.3f, 5.3f);
         startPosition= new Vector3(positionX.x ,7,transform.position.z);
     }
-    // private void checklayerScore(GameObject obj)
-    // {
-    //     if(obj.layer !=6 && obj.layer != 7) return;
-    // }
     
 }
