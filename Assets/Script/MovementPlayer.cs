@@ -5,6 +5,11 @@ public class MovementPlayer : MonoBehaviour
 {
     [SerializeField]private float speed = 5;
     private Vector3 velocity;
+    private Rigidbody rb;
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
     public void MovePlayer(InputAction.CallbackContext context)
     {
         Vector2 input=context.ReadValue<Vector2>();
@@ -14,7 +19,7 @@ public class MovementPlayer : MonoBehaviour
     {
         Vector3 move = new Vector3(velocity.x,0,velocity.y);
 
-        transform.position+=move*speed*Time.deltaTime;
+        rb.MovePosition(rb.position + move * speed * Time.fixedDeltaTime);
     }
     
     public void setSpeed(float value)

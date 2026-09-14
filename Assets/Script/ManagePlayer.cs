@@ -8,6 +8,7 @@ public class ManagePlayer : MonoBehaviour
     [SerializeField] private GameOver gameOver;
 
     public GameOver GameOver=>gameOver;
+    public getTheFood GetFood=>getTheFood;
 
     
 }

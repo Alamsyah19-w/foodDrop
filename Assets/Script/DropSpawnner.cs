@@ -9,6 +9,7 @@ public class DropSpawnner : MonoBehaviour
     [SerializeField]private AlergiFoodScritable[]  alergiFoodTheme;
     
     [SerializeField] private float speedDrop=3f;
+    [SerializeField] private float destroyYThreshold = -6f;
     
     private GameObject[] safeFood;
     private AlergiFoodScritable AlergiThemeInGame;
@@ -19,11 +20,15 @@ public class DropSpawnner : MonoBehaviour
     private Vector3 positionX;
     private string gameObjectLayerMask="ScorePlus";
     private string enemyLayerMask="ScoreMin";
+    private int foodLayer;
+    private int alergiLayer;
     private bool isPlay=true;
 
  
     private void Start() {
-        
+
+        foodLayer = LayerMask.NameToLayer(gameObjectLayerMask);
+        alergiLayer = LayerMask.NameToLayer(enemyLayerMask);
         addThemeEnemy();
         addEnemyObjects();
 
@@ -63,7 +68,7 @@ public class DropSpawnner : MonoBehaviour
 
             spawnFoodObject = Instantiate(FoodObjects[randomIndex],startPosition,Quaternion.identity);
 
-            spawnFoodObject.layer=LayerMask.NameToLayer(gameObjectLayerMask);
+            spawnFoodObject.layer=foodLayer;
 
             
 
@@ -86,7 +91,7 @@ public class DropSpawnner : MonoBehaviour
             spawnAlergiObject = Instantiate(alergiObjects[randomIndex],startPosition,Quaternion.identity);
 
             //set Layer
-            spawnAlergiObject.layer=LayerMask.NameToLayer(enemyLayerMask);
+            spawnAlergiObject.layer=alergiLayer;
             
 
             StartCoroutine(DropObject(spawnAlergiObject));
@@ -98,12 +103,14 @@ public class DropSpawnner : MonoBehaviour
 
     IEnumerator DropObject(GameObject obj)
     {
-        while (obj != null)
+        while (obj != null && obj.transform.position.y > destroyYThreshold)
         {
             obj.transform.position += Vector3.down * speedDrop * Time.deltaTime;
 
             yield return null;
         }
+        if (obj != null)
+        Destroy(obj);
     }
 
     private void randomXPosition()

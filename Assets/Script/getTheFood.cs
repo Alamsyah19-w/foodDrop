@@ -4,6 +4,7 @@ public class getTheFood : MonoBehaviour
 {
     [SerializeField]private ManagePlayer player;
     [SerializeField] private int score;
+
     private void Update()
     {
         GameOver();
@@ -24,6 +25,10 @@ public class getTheFood : MonoBehaviour
     public int GetScore()
     {
         return score;
+    }
+    public void SetScore(int valueScore)
+    {
+        this.score+=valueScore;
     }
     private void GameOver()
     {
