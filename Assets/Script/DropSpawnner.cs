@@ -1,46 +1,40 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class DropSpawnner : MonoBehaviour
 {
     [SerializeField] private GameObject[] FoodObjects;
-    [SerializeField]private GameObject[] alergiObjects;
-    [SerializeField]private AlergiFoodScritable[]  alergiFoodTheme;
+    [SerializeField] private GameObject[] alergiObjects;
+    [SerializeField] private AlergiFoodScritable[]  alergiFoodTheme;
     
     [SerializeField] private float speedDrop=3f;
     [SerializeField] private float destroyYThreshold = -6f;
     
-    private GameObject[] safeFood;
+    private List <GameObject> safeFood =new List<GameObject>();
     private AlergiFoodScritable AlergiThemeInGame;
 
-    private GameObject spawnFoodObject;
-    private GameObject spawnAlergiObject;
+    
+    private GameObject spawnObjects;
+    private GameObject objectToSpawn;
+
     private Vector3 startPosition;
     private Vector3 positionX;
-    private string gameObjectLayerMask="ScorePlus";
-    private string enemyLayerMask="ScoreMin";
-    private int foodLayer;
-    private int alergiLayer;
+    private int objectLayer;
+    private int foodLayer=6;
+    private int alergiLayer=7;
     private bool isPlay=true;
+
+    public CategoryFood categories=>AlergiThemeInGame.category;
 
  
     private void Start() {
-
-        foodLayer = LayerMask.NameToLayer(gameObjectLayerMask);
-        alergiLayer = LayerMask.NameToLayer(enemyLayerMask);
         addThemeEnemy();
         addEnemyObjects();
 
-        safeFood = FoodObjects.Where(f=>!alergiObjects.Contains(f)).ToArray();
-        if (safeFood.Length == 0)
-        {
-            Debug.LogError("Semua FoodObjects overlap dengan tema alergi aktif — tidak ada makanan aman untuk di-spawn!");
-            safeFood = FoodObjects; // fallback biar tidak crash
-        }
-
+        filterFood();
         StartCoroutine(spawnFoodObjects());
-        StartCoroutine(spawnAlergiObjects());
         
     }
     private void addThemeEnemy()
@@ -48,6 +42,7 @@ public class DropSpawnner : MonoBehaviour
         int randomIndex = Random.Range(0, alergiFoodTheme.Length);
 
         AlergiThemeInGame = alergiFoodTheme[randomIndex];
+        
     }
     private void addEnemyObjects()
     {
@@ -57,47 +52,44 @@ public class DropSpawnner : MonoBehaviour
             alergiObjects[i]=AlergiThemeInGame.prefabs[i];
         }
     }
-
+    private  void filterFood()
+    {
+        foreach (GameObject food in FoodObjects)
+        {
+            if (!alergiObjects.Contains(food))
+            {
+                safeFood.Add(food);
+            }
+        }
+    }
     IEnumerator spawnFoodObjects()
     {
-  
         while(isPlay){
+
             randomXPosition();
+    
+            bool spawnAlergi = Random.value < 0.3f;
 
-            int randomIndex = Random.Range(0, FoodObjects.Length);
+            if (spawnAlergi)
+            {
+                int randomIndex = Random.Range(0, alergiObjects.Length);
+                objectToSpawn= alergiObjects[randomIndex];
+                objectLayer=alergiLayer;
+            }
+            else
+            {
+                int randomIndex= Random.Range(0,safeFood.Count);
+                objectToSpawn=safeFood[randomIndex];
+                objectLayer=foodLayer;
+            }
 
-            spawnFoodObject = Instantiate(FoodObjects[randomIndex],startPosition,Quaternion.identity);
+            spawnObjects = Instantiate(objectToSpawn,startPosition,Quaternion.identity);
+            spawnObjects.layer=objectLayer;
 
-            spawnFoodObject.layer=foodLayer;
-
-            
-
-            StartCoroutine(DropObject(spawnFoodObject));
-  
-            yield return new WaitForSeconds(1.5f);
-        }
-
-
+            StartCoroutine(DropObject(spawnObjects));
         
-    }
-    IEnumerator spawnAlergiObjects()
-    {
-        while(isPlay){
-            randomXPosition();
-            
-            //set random number urut for the food
-            int randomIndex = Random.Range(0, alergiObjects.Length);
 
-            spawnAlergiObject = Instantiate(alergiObjects[randomIndex],startPosition,Quaternion.identity);
-
-            //set Layer
-            spawnAlergiObject.layer=alergiLayer;
-            
-
-            StartCoroutine(DropObject(spawnAlergiObject));
-            
-  
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(1.5f);
         }
     }
 

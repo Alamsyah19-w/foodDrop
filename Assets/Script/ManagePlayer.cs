@@ -9,6 +9,7 @@ public class ManagePlayer : MonoBehaviour
 
     public GameOver GameOver=>gameOver;
     public getTheFood GetFood=>getTheFood;
+    public DropSpawnner DropSpawnner=>dropSpawnner;
 
     
 }
