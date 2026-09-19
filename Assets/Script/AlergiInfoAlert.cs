@@ -7,7 +7,7 @@ public class AlergiInfoAlert : MonoBehaviour
     [SerializeField] private TextMeshProUGUI textUI;
     [SerializeField] private ManagePlayer player;
     private CategoryFood category;
-    private bool alergiActive=true;
+    
     private void Update()
     {
         changeTextUI();
@@ -16,8 +16,8 @@ public class AlergiInfoAlert : MonoBehaviour
     {
         category=player.DropSpawnner.categories;
 
-        textUI.text="Alergi yang anda miliki adalah "+category.ToString();
-        Invoke(nameof(setActiveUI),1f);
+        textUI.text=$"Alergi yang anda miliki adalah <color=#b50b0b> {category}</color>";
+        Invoke(nameof(setActiveUI),1.3f);
     }
     private void setActiveUI()
     {

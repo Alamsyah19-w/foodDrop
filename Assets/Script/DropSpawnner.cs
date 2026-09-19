@@ -101,8 +101,6 @@ public class DropSpawnner : MonoBehaviour
 
             yield return null;
         }
-        if (obj != null)
-        Destroy(obj);
     }
 
     private void randomXPosition()
