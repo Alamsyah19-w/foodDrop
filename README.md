@@ -9,7 +9,9 @@ menghasilkan Alergi Object yang berbeda.
 </p>
 
 <h4>Preview Gameplay</h4>
-https://github.com/user-attachments/assets/51fff709-cbd6-49d5-afe6-7d685f833052
+<video src="https://github.com/user-attachments/assets/51fff709-cbd6-49d5-afe6-7d685f833052" controls width="100%"></video>
+
+
 
 
 
